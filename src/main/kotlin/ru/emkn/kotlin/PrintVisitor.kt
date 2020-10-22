@@ -23,7 +23,8 @@ sealed class BracketsStrategy {
 
 class PrintVisitor(
     private val bracketsStrategy: BracketsStrategy = BracketsStrategy.Default()
-) : ExprNodeVisitor {
+) : ExprNodeVisitor<Unit> {
+
     override fun visit(node: LiteralNode) {
         if (node.number < 0)
             printNegativeLiteral(node.number)

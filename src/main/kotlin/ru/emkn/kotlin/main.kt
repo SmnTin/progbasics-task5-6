@@ -15,16 +15,15 @@ fun main() {
                 LiteralNode(-2)
             )
         )
+
     root.accept(PrintVisitor())
     println()
 
     val calcVisitor = CalculateVisitor()
     root.accept(calcVisitor)
-    println(calcVisitor.result)
+    println(root.accept(calcVisitor))
 
     val expandVisitor = ExpandVisitor()
-    root.accept(expandVisitor)
-
-    expandVisitor.expansion.accept(PrintVisitor(BracketsStrategy.OmitBrackets()))
+    root.accept(expandVisitor).accept(PrintVisitor(BracketsStrategy.OmitBrackets()))
     println()
 }

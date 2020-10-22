@@ -1,29 +1,29 @@
 package ru.emkn.kotlin
 
-interface ExprNodeVisitor {
-    fun visit(node: LiteralNode)
-    fun visit(node: AdditionNode)
-    fun visit(node: MultiplicationNode)
+interface ExprNodeVisitor<R> {
+    fun visit(node: LiteralNode) : R
+    fun visit(node: AdditionNode) : R
+    fun visit(node: MultiplicationNode) : R
 }
 
 interface ExprNode {
-    fun accept(visitor: ExprNodeVisitor)
+    fun <R> accept(visitor: ExprNodeVisitor<R>) : R
 }
 
 class LiteralNode(val number: Int) : ExprNode {
-    override fun accept(visitor: ExprNodeVisitor) {
-        visitor.visit(this)
+    override fun <R> accept(visitor: ExprNodeVisitor<R>) : R {
+        return visitor.visit(this)
     }
 }
 
 class AdditionNode(val left: ExprNode, val right: ExprNode) : ExprNode {
-    override fun accept(visitor: ExprNodeVisitor) {
-        visitor.visit(this)
+    override fun <R> accept(visitor: ExprNodeVisitor<R>) : R {
+        return visitor.visit(this)
     }
 }
 
 class MultiplicationNode(val left: ExprNode, val right: ExprNode) : ExprNode {
-    override fun accept(visitor: ExprNodeVisitor) {
-        visitor.visit(this)
+    override fun <R> accept(visitor: ExprNodeVisitor<R>) : R {
+        return visitor.visit(this)
     }
 }
