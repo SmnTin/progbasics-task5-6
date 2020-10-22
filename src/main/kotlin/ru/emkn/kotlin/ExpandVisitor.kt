@@ -5,11 +5,7 @@ class ExpandVisitor : ExprNodeVisitor {
         private set
 
     override fun visit(node: AdditionNode) {
-        node.left.accept(this)
-        val leftExpansion = expansion
-        node.right.accept(this)
-        val rightExpansion = expansion
-        expansion = AdditionNode(leftExpansion, rightExpansion)
+        visitBinaryOperation(node.left, node.right) { a, b -> AdditionNode(a, b) }
     }
 
     override fun visit(node: LiteralNode) {
@@ -42,10 +38,14 @@ class ExpandVisitor : ExprNodeVisitor {
     }
 
     private fun expandMultiplication(left: ExprNode, right: ExprNode) {
+        visitBinaryOperation(left, right) { a, b -> MultiplicationNode(a, b) }
+    }
+
+    private fun visitBinaryOperation(left: ExprNode, right: ExprNode, transform: (ExprNode, ExprNode) -> ExprNode) {
         left.accept(this)
         val leftExpansion = expansion
         right.accept(this)
         val rightExpansion = expansion
-        expansion = MultiplicationNode(leftExpansion, rightExpansion)
+        expansion = transform(leftExpansion, rightExpansion)
     }
 }
